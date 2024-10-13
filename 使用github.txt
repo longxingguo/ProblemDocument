@@ -1,0 +1,17 @@
+
+
+
+
+访问Github卡顿甚至进不去的解决办法
+1、使用Watt Tookit（原 Steam++）下载地址
+//github地址
+https://github.com/BeyondDimension/SteamTools
+//软件官网
+https://steampp.net/
+安装好以后选中网站加速 向下翻找到 Github 并勾选 点击一键加速
+
+删除github仓库
+1、点击github的logo，在左则会列出你所有创建的仓库
+2、点击你要删除的那仓库，比如我当前的是 test，然后点击settings
+3、在settings的页面中，滚动最后，点击【delete this repository】
+此时，会弹出让你确认输入你需要删除的仓库名称
