@@ -1,0 +1,62 @@
+
+当我们有a.js  b.js  并且两个js里都有同样名字的字段时
+var name = "I am a.js"
+var name = "I am b.js"
+<script  src="./a.js"></script>
+<script  src="./b.js"></script>
+后执行的 b.js 中的 name 变量覆盖了 a.js 中的 name 变量。这种情况我们称之为命名冲突。
+
+传统方式下，JS 若想引入其它 JS 文件时，通常使用 <script> 语法来完成，然而引入的 JS 往往易于造成命名污染，为了解决这问题，模块化 开发的概念逐渐浮现。
+
+<!-- 在 js 刚出现的时候，只是作为脚本语言，但随着浏览器的不断发展，js 越来越被重视起来，可以实现较为复杂的功能。这个时候开发者为了维护方便，会把不同功能的模块抽离出来写入单独的 js 文件，但是当项目更为复杂的时候，html 中可能会引入很多个 js 文件，而这个时候就会出现命名冲突，污染作用域等一系列问题，这个时候 模块化 的概念及实现方法应运而生。 -->
+
+
+在前端的世界演变里，有着几种JS的模块规范，从出现的顺序来说就是：
+①amd 全称是 Async Module Definition -中文： 异步模块化定义
+//require.js是AMD模块规范的一个具体实现
+//核心是通过define方法对无序的代码进行有序的模块化定义，通过require方法实现代码的模块化加载
+
+②cmd 全称是 Common Module Definition -中文： 通用模块化定义
+//sea.js是CMD模块规范的一个具体实现  很类似amd
+
+③common.js
+//Node中使用的模块规范
+//通过exports和module.exports来暴露模块中的内容。
+//通过require来加载模块。
+
+④ umd
+//一种同时兼容了amd cmd common.js的规范
+amd cmd 通常只能在浏览器中使用, commonjs只能在服务端(Node)**环境下使用, 这样子搞会导致我们基于其中某一种模块规范写的js模块无法在服务端和浏览器端进行复用.
+umd解决了这个问题, 它兼容并包, 使得使用此规范写的 js模块既可以在浏览器环境下使用, 也可以在Node(服务端)环境中用
+
+⑤ esm
+//ES6模块规范
+//使用import导入模块，通过export导出模块
+amd, cmd曾经是个很流行的js模块化产物，记得自己出来工作不久，去面试的时候，也被问过这个两个有什么不一样（上面已经答案），到底使用哪个好等问题，那时自己也是模糊不清，具体回答的不是很清楚，也许是当时那个公司在使用这些规范才考察我，不过现在amd、cmd感觉基本上是没有公司项目在使用了， 现在常用的模块规范一般就是es6模块和commonjs(只用于node)了, node中也已经提供了实验性的es模块支持.
+
+随着微软放弃IE ，现代浏览器对es的import和export的支持也已经很不错了(除了IE其他主流浏览器都支持了)
+
+现在Vue框架里面都是遵守esm规范，不得不说esm是目前最好最流行的一种js规范了
+
+1、对于依赖模块，AMD提前执行，CMD延迟执行。
+
+然而，RequireJS从2.0开始，也改为可延迟执行(根据不同的写法和不同的处理方法)。CMD高度赞扬aslazyaspossible。
+
+2、AMD崇尚前置，CMD崇尚就近，只有在使用某个模块时才去require。
+// AMD
+define(['./a', './b'], function(a, b) {  // 依赖必须一开始就写好  
+   a.doSomething()    
+   // 此处略去 100 行    
+   b.doSomething()    
+   ...
+});
+// CMD
+define(function(require, exports, module) {
+   var a = require('./a')   
+   a.doSomething()   
+   // 此处略去其他业务代码
+   var b = require('./b')
+   // 依赖可以就近书写   
+   b.doSomething()
+   // ...
+});
